@@ -27,7 +27,7 @@ class ProductController extends Controller
                 'product_id' => $id
             ]);
 
-            ProductLiked::dispatch($productuser->toArray());
+            ProductLiked::dispatch($productuser->toArray())->onQueue('admin_queue');
 
             return response([
                 'message' => 'success'

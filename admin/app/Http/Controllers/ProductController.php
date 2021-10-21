@@ -25,7 +25,7 @@ class ProductController extends Controller
             $request->only('title', 'image')
         );
 
-        ProductCreated::dispatch($product->toArray());
+        ProductCreated::dispatch($product->toArray())->onQueue('main_queue');
 
         return response($product, Response::HTTP_CREATED);
     }
@@ -37,14 +37,14 @@ class ProductController extends Controller
             $request->only('title', 'image')
         );
 
-        ProductUpdated::dispatch($product->toArray());
+        ProductUpdated::dispatch($product->toArray())->onQueue('main_queue');
 
         return response($product, Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id){
         Product::destroy($id);
-        ProductUpdated::dispatch($id);
+        ProductUpdated::dispatch($id)->onQueue('main_queue');
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }
